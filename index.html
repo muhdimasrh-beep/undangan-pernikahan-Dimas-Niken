@@ -460,51 +460,7 @@
       initAndPlayGamelan();
     }
 
-    // 3. Audio Synthesizer Bernuansa Gamelan Jawa (Web Audio API)
-    let audioCtx = null;
-    let isPlaying = false;
-    let timerId = null;
-
-    function initAndPlayGamelan() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      isPlaying = true;
-      document.getElementById('music-control').innerText = "🔊";
-      playGamelanLoop();
-    }
-
-    // Melodi Laras Slendro / Pelog Jawa (Frekuensi Hz)
-    const gamelanScale = [261.6, 293.6, 329.6, 392.0, 440.0, 523.2];
-    function playNote(freq, dur) {
-      if (!isPlaying || !audioCtx) return;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
-
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      osc.start();
-      osc.stop(audioCtx.currentTime + dur);
-    }
-
-    function playGamelanLoop() {
-      if (!isPlaying) return;
-      // Memilih nada acak dari tangga nada gamelan yang lembut
-      const note = gamelanScale[Math.floor(Math.random() * gamelanScale.length)];
-      playNote(note, 2.5);
-      timerId = setTimeout(playGamelanLoop, 900);
-    }
-
+  
     function toggleAudio() {
       if (isPlaying) {
         isPlaying = false;
