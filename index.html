@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pawiwahan Ageng - Dimas & Niken</title>
+  
+  <!-- Font Google: Cinzel (Elegan & Mewah) & Plus Jakarta Sans (Modern) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #141311;
+      --bg-card: #1f1d19;
+      --gold-primary: #d4af37;
+      --gold-light: #f7e7a9;
+      --gold-gradient: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #aa7c11 100%);
+      --text-main: #f4efe6;
+      --text-muted: #b8af9f;
+      --border-gold: rgba(212, 175, 55, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: radial-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .font-serif {
+      font-family: 'Cinzel', serif;
+    }
+
+    .font-decorative {
+      font-family: 'Cinzel Decorative', serif;
+    }
+
+    .text-gold {
+      color: var(--gold-primary);
+    }
+
+    .gold-gradient-text {
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Container */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    /* Cover / Modal Pembuka */
+    #cover-modal {
+      position: fixed;
+      inset: 0;
+      background-color: #0d0c0a;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #cover-modal.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .gunungan-svg {
+      width: 110px;
+      height: 140px;
+      fill: none;
+      stroke: var(--gold-primary);
+      stroke-width: 1.5;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+    }
+
+    .btn-open {
+      margin-top: 28px;
+      padding: 12px 32px;
+      border: 1px solid var(--gold-primary);
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--gold-light);
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-open:hover {
+      background: var(--gold-primary);
+      color: #141311;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Card Box */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      padding: 32px 24px;
+      margin-bottom: 32px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 6px; left: 6px; right: 6px; bottom: 6px;
+      border: 1px dashed rgba(212, 175, 55, 0.15);
+      border-radius: 12px;
+      pointer-events: none;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+      gap: 12px;
+    }
+
+    .divider span {
+      height: 1px;
+      width: 60px;
+      background: var(--border-gold);
+    }
+
+    /* Pasangan Mempelai */
+    .couple-item {
+      margin: 24px 0;
+    }
+
+    .couple-name {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .parent-name {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Info Acara */
+    .event-box {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .placeholder-text {
+      display: inline-block;
+      padding: 2px 10px;
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px dashed var(--gold-primary);
+      border-radius: 4px;
+      color: var(--gold-light);
+      font-weight: 500;
+      margin: 4px 0;
+    }
+
+    /* Tombol Utama */
+    .btn-action {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 10px 22px;
+      background: var(--gold-gradient);
+      color: #141311;
+      font-weight: 600;
+      font-size: 13px;
+      text-decoration: none;
+      border-radius: 20px;
+      transition: 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-action:hover {
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+      transform: translateY(-2px);
+    }
+
+    /* Form RSVP */
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      color: var(--gold-light);
+      margin-bottom: 6px;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      background: #12110f;
+      border: 1px solid var(--border-gold);
+      padding: 12px 14px;
+      border-radius: 8px;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--gold-primary);
+    }
+
+    /* Musik FAB */
+    .music-btn {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(31, 29, 25, 0.9);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      font-size: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 20px 0 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== COVER MODAL ==================== -->
+  <div id="cover-modal">
+    <!-- Ornamen Gunungan Wayang Klasik (SVG) -->
+    <svg class="gunungan-svg" viewBox="0 0 100 130">
+      <path d="M50 5 C50 5 15 50 15 90 C15 110 30 120 50 120 C70 120 85 110 85 90 C85 50 50 5 Z"/>
+      <path d="M50 15 C50 15 25 55 25 90 C25 105 35 112 50 112 C65 112 75 105 75 90 C75 55 50 15 Z"/>
+      <line x1="50" y1="5" x2="50" y2="125" />
+      <circle cx="50" cy="65" r="8"/>
+      <circle cx="50" cy="35" r="4"/>
+    </svg>
+
+    <p class="font-serif text-gold" style="letter-spacing: 3px; font-size: 12px; margin-bottom: 8px;">SERAT SEDHAHAN PAWIWAHAN</p>
+    <h1 class="font-decorative gold-gradient-text" style="font-size: 32px; margin-bottom: 6px;">Dimas &amp; Niken</h1>
+    <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px;">Pernikahan Adat Jawa</p>
+
+    <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-gold); padding: 14px 24px; border-radius: 12px;">
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+      <h3 id="guest-name-cover" class="font-serif text-gold" style="font-size: 18px;">Tamu Undangan</h3>
+    </div>
+
+    <button class="btn-open" onclick="openInvitation()">
+      <span>✉ BUKA UNDANGAN</span>
+    </button>
+  </div>
+
+  <!-- ==================== KONTEN UTAMA ==================== -->
+  <div class="container">
+    
+    <!-- Header Ayat / Doa Restu -->
+    <section class="card">
+      <p class="font-serif text-gold" style="font-size: 12px; letter-spacing: 2px; margin-bottom: 12px;">BISMILLAHIRRAHMANIRRAHIM</p>
+      <p style="font-size: 13.5px; color: var(--text-muted); font-style: italic; line-height: 1.8;">
+        "Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya di antaramu rasa kasih dan sayang."
+      </p>
+      <div class="divider"><span></span>❖<span></span></div>
+      <p class="font-serif" style="font-size: 12px; color: var(--gold-light);">QS. AR-RUM: 21</p>
+    </section>
+
+    <!-- Mempelai Pengantin -->
+    <section class="card">
+      <p class="font-serif text-gold" style="font-size: 13px; letter-spacing: 3px; margin-bottom: 4px;">SERAT PAWIWAHAN</p>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">
+        Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan syukuran pernikahan putra-putri kami:
+      </p>
+
+      <!-- Mempelai Pria -->
+      <div class="couple-item">
+        <h2 class="couple-name font-serif gold-gradient-text">Muhammad Dimas Rizky Haikal, S.E.</h2>
+        <p class="parent-name">
+          Putra dari Pasangan:<br>
+          <strong style="color: var(--text-main);">Bapak Sugeng Diono &amp; Ibu Tuti Prihasti</strong>
+        </p>
+      </div>
+
+      <div class="divider"><span></span>&amp;<span></span></div>
+
+      <!-- Mempelai Wanita -->
+      <div class="couple-item">
+        <h2 class="couple-name font-serif gold-gradient-text">Niken Puspasari, S.M.</h2>
+        <p class="parent-name">
+          Putri dari Pasangan:<br>
+          <strong style="color: var(--text-main);">Bapak Basuno Wibowo &amp; Ibu Bainah Syahril</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- Jadwal & Lokasi Acara -->
+    <section class="card">
+      <h3 class="font-serif text-gold" style="letter-spacing: 2px; margin-bottom: 8px;">RANGKAIAN ACARA</h3>
+      <p style="font-size: 13px; color: var(--text-muted);">Insya Allah acara akan diselenggarakan pada:</p>
+
+      <!-- Akad Nikah -->
+      <div class="event-box">
+        <h4 class="font-serif text-gold" style="font-size: 18px; margin-bottom: 6px;">Akad Nikah / Ijab Qabul</h4>
+        <p style="font-size: 13px; color: var(--text-muted);">Hari &amp; Tanggal:</p>
+        <div class="placeholder-text">[ Isi Hari &amp; Tanggal Akad ]</div>
+        
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">Pukul:</p>
+        <div class="placeholder-text">[ Isi Waktu / Jam Akad WIB ]</div>
+
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">Tempat / Lokasi:</p>
+        <div class="placeholder-text" style="display:block; max-width: 90%; margin: 6px auto;">[ Isi Nama Gedung / Masjid / Alamat Lengkap Akad ]</div>
+      </div>
+
+      <!-- Resepsi / Panggih -->
+      <div class="event-box" style="margin-top: 16px;">
+        <h4 class="font-serif text-gold" style="font-size: 18px; margin-bottom: 6px;">Resepsi Pernikahan</h4>
+        <p style="font-size: 13px; color: var(--text-muted);">Hari &amp; Tanggal:</p>
+        <div class="placeholder-text">[ Isi Hari &amp; Tanggal Resepsi ]</div>
+        
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">Pukul:</p>
+        <div class="placeholder-text">[ Isi Waktu / Sesi Resepsi WIB ]</div>
+
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">Tempat / Lokasi:</p>
+        <div class="placeholder-text" style="display:block; max-width: 90%; margin: 6px auto;">[ Isi Nama Gedung / Ballroom / Alamat Resepsi ]</div>
+
+        <!-- Tombol Google Maps (Bisa ganti tautan di href) -->
+        <a href="https://maps.google.com" target="_blank" class="btn-action">
+          📍 Buka di Google Maps
+        </a>
+      </div>
+    </section>
+
+    <!-- Tanda Kasih / Amplop Digital -->
+    <section class="card">
+      <h3 class="font-serif text-gold" style="letter-spacing: 2px; margin-bottom: 8px;">TANDA KASIH</h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+        Doa restu Anda merupakan karunia terindah bagi kami. Bagi yang berkenan memberikan tanda kasih, dapat melalui:
+      </p>
+
+      <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-gold); padding: 16px; border-radius: 12px; margin-bottom: 12px;">
+        <p style="font-size: 13px; color: var(--gold-light);">Bank Mandiri / BCA / BNI</p>
+        <p style="font-size: 16px; font-weight: 700; letter-spacing: 1px; margin: 4px 0;" id="rek-number">[ ISI NOMOR REKENING ]</p>
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">a.n. Muhammad Dimas Rizky Haikal</p>
+        <button class="btn-action" style="font-size: 11px; padding: 6px 16px;" onclick="copyRekening()">Salin No. Rekening</button>
+      </div>
+    </section>
+
+    <!-- RSVP & Doa Restu -->
+    <section class="card">
+      <h3 class="font-serif text-gold" style="letter-spacing: 2px; margin-bottom: 8px;">KONFIRMASI KEHADIRAN (RSVP)</h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+        Mohon kesediaan Bapak/Ibu/Saudara/i untuk memberikan doa restu dan konfirmasi kehadiran.
+      </p>
+
+      <form id="rsvp-form" onsubmit="handleRSVP(event)">
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="rsvp-name" class="form-input" placeholder="Masukkan nama Anda" required />
+        </div>
+
+        <div class="form-group">
+          <label>Konfirmasi Kehadiran</label>
+          <select id="rsvp-status" class="form-select">
+            <option value="Hadir">Hadir</option>
+            <option value="Tidak Hadir">Tidak Dapat Hadir</option>
+            <option value="Ragu-ragu">Masih Ragu-ragu</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Doa &amp; Ucapan Selamat</label>
+          <textarea id="rsvp-msg" class="form-textarea" rows="3" placeholder="Tuliskan ucapan dan doa restu untuk kedua mempelai..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-action" style="width: 100%;">Kirim Ucapan &amp; Konfirmasi</button>
+      </form>
+
+      <!-- Daftar Ucapan Masuk -->
+      <div id="wishes-list" style="margin-top: 24px; text-align: left; max-height: 250px; overflow-y: auto;">
+        <!-- Ucapan akan tampil di sini -->
+      </div>
+    </section>
+
+    <!-- Penutup -->
+    <footer>
+      <p style="font-size: 13px; margin-bottom: 6px;">Atas kehadiran dan doa restu Bapak/Ibu/Saudara/i sekalian, kami sekeluarga mengucapkan terima kasih yang sebesar-besarnya.</p>
+      <p class="font-serif text-gold" style="font-size: 14px; letter-spacing: 1px;">Matur Nuwun</p>
+      <p style="margin-top: 14px; color: rgba(255,255,255,0.3); font-size: 11px;">Dimas &amp; Niken Wedding</p>
+    </footer>
+
+  </div>
+
+  <!-- Tombol Audio Musik -->
+  <button id="music-control" class="music-btn" onclick="toggleAudio()" title="Putar/Hentikan Musik">
+    🎵
+  </button>
+
+  <!-- ==================== LOGIKA JAVASCRIPT ==================== -->
+  <script>
+    // 1. Ambil Nama Tamu dari URL Parameter (?to=Nama+Tamu)
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const guestParam = urlParams.get('to');
+      if (guestParam) {
+        const decodedName = guestParam.replace(/\+/g, ' ');
+        document.getElementById('guest-name-cover').innerText = decodedName;
+        document.getElementById('rsvp-name').value = decodedName;
+      }
+      renderWishes();
+    });
+
+    // 2. Buka Undangan
+    function openInvitation() {
+      document.getElementById('cover-modal').classList.add('hidden');
+      initAndPlayGamelan();
+    }
+
+    // 3. Audio Synthesizer Bernuansa Gamelan Jawa (Web Audio API)
+    let audioCtx = null;
+    let isPlaying = false;
+    let timerId = null;
+
+    function initAndPlayGamelan() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      isPlaying = true;
+      document.getElementById('music-control').innerText = "🔊";
+      playGamelanLoop();
+    }
+
+    // Melodi Laras Slendro / Pelog Jawa (Frekuensi Hz)
+    const gamelanScale = [261.6, 293.6, 329.6, 392.0, 440.0, 523.2];
+    function playNote(freq, dur) {
+      if (!isPlaying || !audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + dur);
+    }
+
+    function playGamelanLoop() {
+      if (!isPlaying) return;
+      // Memilih nada acak dari tangga nada gamelan yang lembut
+      const note = gamelanScale[Math.floor(Math.random() * gamelanScale.length)];
+      playNote(note, 2.5);
+      timerId = setTimeout(playGamelanLoop, 900);
+    }
+
+    function toggleAudio() {
+      if (isPlaying) {
+        isPlaying = false;
+        clearTimeout(timerId);
+        document.getElementById('music-control').innerText = "🔇";
+      } else {
+        initAndPlayGamelan();
+      }
+    }
+
+    // 4. Salin Nomor Rekening
+    function copyRekening() {
+      const rek = document.getElementById('rek-number').innerText;
+      navigator.clipboard.writeText(rek).then(() => {
+        alert("Nomor rekening berhasil disalin!");
+      }).catch(() => {
+        alert("Gagal menyalin otomatis, silakan salin manual.");
+      });
+    }
+
+    // 5. RSVP & Simpan di Browser (LocalStorage)
+    function handleRSVP(e) {
+      e.preventDefault();
+      const name = document.getElementById('rsvp-name').value.trim();
+      const status = document.getElementById('rsvp-status').value;
+      const msg = document.getElementById('rsvp-msg').value.trim();
+
+      if (!name || !msg) return;
+
+      const newEntry = { name, status, msg, date: new Date().toLocaleDateString('id-ID') };
+      let list = JSON.parse(localStorage.getItem('wedding_wishes') || '[]');
+      list.unshift(newEntry);
+      localStorage.setItem('wedding_wishes', JSON.stringify(list));
+
+      document.getElementById('rsvp-msg').value = '';
+      renderWishes();
+      alert("Terima kasih atas ucapan dan konfirmasinya!");
+    }
+
+    function renderWishes() {
+      const container = document.getElementById('wishes-list');
+      const list = JSON.parse(localStorage.getItem('wedding_wishes') || '[]');
+      if (list.length === 0) {
+        container.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); text-align: center;">Belum ada ucapan. Jadilah yang pertama memberikan doa restu!</p>';
+        return;
+      }
+
+      container.innerHTML = list.map(item => `
+        <div style="background: rgba(0,0,0,0.3); border-left: 2px solid var(--gold-primary); padding: 10px 14px; margin-bottom: 10px; border-radius: 4px;">
+          <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;">
+            <strong style="color: var(--gold-light);">${item.name}</strong>
+            <span style="color: var(--text-muted); font-size:11px;">${item.status}</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-main); margin-bottom: 2px;">"${item.msg}"</p>
+          <span style="font-size: 10px; color: var(--text-muted);">${item.date}</span>
+        </div>
+      `).join('');
+    }
+  </script>
+</body>
+</html>
