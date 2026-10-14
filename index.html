@@ -440,9 +440,16 @@
     🎵
   </button>
 
+  <!-- AUDIO AKAD - PAYUNG TEDUH - TARUH DI SINI -->
+  <audio id="weddingMusic" loop preload="auto">
+    <source src="akad.mp3" type="audio/mpeg">
+  </audio>
+
   <!-- ==================== LOGIKA JAVASCRIPT ==================== -->
   <script>
-    // 1. Ambil Nama Tamu dari URL Parameter (?to=Nama+Tamu)
+    let isPlaying = false;
+    let music = null;
+
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const guestParam = urlParams.get('to');
@@ -451,50 +458,54 @@
         document.getElementById('guest-name-cover').innerText = decodedName;
         document.getElementById('rsvp-name').value = decodedName;
       }
+      music = document.getElementById('weddingMusic');
       renderWishes();
     });
 
-    // 2. Buka Undangan
     function openInvitation() {
       document.getElementById('cover-modal').classList.add('hidden');
       initAndPlayGamelan();
     }
 
+    function initAndPlayGamelan() {
+      if(!music) music = document.getElementById('weddingMusic');
+      music.volume = 0.6;
+      music.play().then(() => {
+        isPlaying = true;
+        document.getElementById('music-control').innerText = "🎵";
+      }).catch(err => {
+        console.log('Autoplay butuh interaksi:', err);
+      });
+    }
   
     function toggleAudio() {
+      if(!music) music = document.getElementById('weddingMusic');
       if (isPlaying) {
+        music.pause();
         isPlaying = false;
-        clearTimeout(timerId);
         document.getElementById('music-control').innerText = "🔇";
       } else {
         initAndPlayGamelan();
       }
     }
 
-    // 4. Salin Nomor Rekening
     function copyRekening() {
       const rek = document.getElementById('rek-number').innerText;
       navigator.clipboard.writeText(rek).then(() => {
         alert("Nomor rekening berhasil disalin!");
-      }).catch(() => {
-        alert("Gagal menyalin otomatis, silakan salin manual.");
       });
     }
 
-    // 5. RSVP & Simpan di Browser (LocalStorage)
     function handleRSVP(e) {
       e.preventDefault();
       const name = document.getElementById('rsvp-name').value.trim();
       const status = document.getElementById('rsvp-status').value;
       const msg = document.getElementById('rsvp-msg').value.trim();
-
       if (!name || !msg) return;
-
       const newEntry = { name, status, msg, date: new Date().toLocaleDateString('id-ID') };
       let list = JSON.parse(localStorage.getItem('wedding_wishes') || '[]');
       list.unshift(newEntry);
       localStorage.setItem('wedding_wishes', JSON.stringify(list));
-
       document.getElementById('rsvp-msg').value = '';
       renderWishes();
       alert("Terima kasih atas ucapan dan konfirmasinya!");
@@ -507,7 +518,6 @@
         container.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); text-align: center;">Belum ada ucapan. Jadilah yang pertama memberikan doa restu!</p>';
         return;
       }
-
       container.innerHTML = list.map(item => `
         <div style="background: rgba(0,0,0,0.3); border-left: 2px solid var(--gold-primary); padding: 10px 14px; margin-bottom: 10px; border-radius: 4px;">
           <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;">
